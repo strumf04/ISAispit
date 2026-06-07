@@ -1,0 +1,14 @@
+$kind: http-request
+name: update_category
+url: "{{base_url}}/api/categories/1"
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"Elektronika Updated\",\r
+
+    \    \"description\": \"Azuriran opis\"\r
+
+    }"
+order: 2123969661549340

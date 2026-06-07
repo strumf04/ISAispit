@@ -1,0 +1,5 @@
+$kind: http-request
+name: get_all_categories
+url: "{{base_url}}/api/categories"
+method: GET
+order: 1780780812919

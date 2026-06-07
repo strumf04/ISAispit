@@ -1,0 +1,9 @@
+$kind: http-request
+name: get_category_by_id
+url: "{{base_url}}/api/categories/1"
+method: GET
+auth:
+  type: inherit
+  credentials:
+    id: 0a4925b8-e7a7-4b10-b8d8-5a2b946fc6ea
+order: 1205974524077028

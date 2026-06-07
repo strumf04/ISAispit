@@ -1,0 +1,14 @@
+$kind: http-request
+name: create_category
+url: "{{base_url}}/api/categories"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"Elektronika\",\r
+
+    \    \"description\": \"Telefoni i laptopovi\"\r
+
+    }"
+order: 1855823748240466
