@@ -1,9 +1,22 @@
 <div class="container">
   <h2>Artikli</h2>
 
-  <button class="btn-success" *ngIf="isAdmin && !showForm" (click)="openCreateForm()">
-    + Dodaj artikal
-  </button>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem;">
+    
+    <div style="display: flex; align-items: center; gap: 0.5rem;" *ngIf="!showForm">
+      <label style="font-weight: 500; color: #555; white-space: nowrap;">Filtriraj po kategoriji:</label>
+      <select [(ngModel)]="searchCategoryId" (change)="filterItems()" style="padding: 0.5rem; border-radius: 6px; border: 1px solid #ddd; font-size: 0.9rem;">
+        <option value="0">Sve kategorije</option>
+        <option *ngFor="let cat of categories" [value]="cat.id">
+          {{ cat.name }}
+        </option>
+      </select>
+    </div>
+
+    <button class="btn-success" *ngIf="isAdmin && !showForm" (click)="openCreateForm()" style="margin-left: auto;">
+      + Dodaj artikal
+    </button>
+  </div>
 
   <div *ngIf="showForm" class="form-card">
     <h3>{{ isEditing ? 'Izmeni artikal' : 'Novi artikal' }}</h3>
@@ -36,7 +49,11 @@
     <button class="btn-secondary" (click)="cancel()">Otkaži</button>
   </div>
 
-  <table *ngIf="!showForm">
+  <p *ngIf="!showForm && filteredItems.length === 0" style="text-align: center; margin-top: 2rem; color: #666;">
+    Nema artikala za izabranu kategoriju.
+  </p>
+
+  <table *ngIf="!showForm && filteredItems.length > 0">
     <thead>
       <tr>
         <th>ID</th>
@@ -49,7 +66,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of items">
+      <tr *ngFor="let item of filteredItems">
         <td>{{ item.id }}</td>
         <td>{{ item.name }}</td>
         <td>{{ item.description }}</td>

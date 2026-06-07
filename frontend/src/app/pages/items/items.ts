@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ItemService } from '../../service/item.service';
@@ -15,10 +15,12 @@ import { AuthService } from '../../service/auth.service';
 export class ItemsComponent implements OnInit {
 
   items: any[] = [];
+  filteredItems: any[] = [];
   categories: any[] = [];
   isAdmin = false;
   showForm = false;
   isEditing = false;
+  searchCategoryId: number = 0;
 
   selectedItem: any = {
     name: '',
@@ -31,7 +33,8 @@ export class ItemsComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private categoryService: CategoryService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -42,16 +45,32 @@ export class ItemsComponent implements OnInit {
 
   loadItems(): void {
     this.itemService.getAll().subscribe({
-      next: (data) => this.items = data,
+      next: (data) => {
+        this.items = data;
+        this.filterItems();
+        this.cdr.detectChanges();
+      },
       error: (err) => console.error(err)
     });
   }
 
   loadCategories(): void {
     this.categoryService.getAll().subscribe({
-      next: (data) => this.categories = data,
+      next: (data) => {
+        this.categories = data;
+        this.cdr.detectChanges();
+      },
       error: (err) => console.error(err)
     });
+  }
+
+  // Nova funkcija za filtriranje na frontendu
+  filterItems(): void {
+    if (Number(this.searchCategoryId) === 0) {
+      this.filteredItems = [...this.items];
+    } else {
+      this.filteredItems = this.items.filter(item => item.category?.id === Number(this.searchCategoryId));
+    }
   }
 
   openCreateForm(): void {
