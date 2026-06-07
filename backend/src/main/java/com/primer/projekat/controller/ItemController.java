@@ -1,21 +1,13 @@
-package main.java.com.primer.projekat.controller;
+package com.primer.projekat.controller;
 
-import com.primer.projekat.config.JwtUtils;
-import com.primer.projekat.dto.*;
-import com.primer.projekat.model.Role;
-import com.primer.projekat.model.User;
-import com.primer.projekat.repository.RoleRepository;
-import com.primer.projekat.repository.UserRepository;
+import com.primer.projekat.model.Item;
+import com.primer.projekat.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/items")

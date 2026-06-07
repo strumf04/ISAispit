@@ -1,29 +1,27 @@
 <div class="container">
   <h2>Artikli</h2>
 
-  <button *ngIf="isAdmin && !showForm" (click)="openCreateForm()">
+  <button class="btn-success" *ngIf="isAdmin && !showForm" (click)="openCreateForm()">
     + Dodaj artikal
   </button>
 
-  <!-- Forma -->
   <div *ngIf="showForm" class="form-card">
     <h3>{{ isEditing ? 'Izmeni artikal' : 'Novi artikal' }}</h3>
-
     <div>
       <label>Naziv</label>
-      <input type="text" [(ngModel)]="selectedItem.name" />
+      <input type="text" [(ngModel)]="selectedItem.name" placeholder="Naziv artikla" />
     </div>
     <div>
       <label>Opis</label>
-      <input type="text" [(ngModel)]="selectedItem.description" />
+      <input type="text" [(ngModel)]="selectedItem.description" placeholder="Opis" />
     </div>
     <div>
       <label>Cijena</label>
-      <input type="number" [(ngModel)]="selectedItem.price" />
+      <input type="number" [(ngModel)]="selectedItem.price" placeholder="0" />
     </div>
     <div>
       <label>Stanje na lageru</label>
-      <input type="number" [(ngModel)]="selectedItem.stock" />
+      <input type="number" [(ngModel)]="selectedItem.stock" placeholder="0" />
     </div>
     <div>
       <label>Kategorija</label>
@@ -34,12 +32,10 @@
         </option>
       </select>
     </div>
-
-    <button (click)="saveItem()">Sačuvaj</button>
-    <button (click)="cancel()">Otkaži</button>
+    <button class="btn-primary" (click)="saveItem()">Sačuvaj</button>
+    <button class="btn-secondary" (click)="cancel()">Otkaži</button>
   </div>
 
-  <!-- Tabela -->
   <table *ngIf="!showForm">
     <thead>
       <tr>
@@ -61,8 +57,8 @@
         <td>{{ item.stock }}</td>
         <td>{{ item.category?.name }}</td>
         <td *ngIf="isAdmin">
-          <button (click)="openEditForm(item)">Izmeni</button>
-          <button (click)="deleteItem(item.id)">Obriši</button>
+          <button class="btn-warning" (click)="openEditForm(item)">Izmeni</button>
+          <button class="btn-danger" (click)="deleteItem(item.id)">Obriši</button>
         </td>
       </tr>
     </tbody>

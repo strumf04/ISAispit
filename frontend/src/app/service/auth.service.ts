@@ -48,7 +48,13 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    const roles = JSON.parse(localStorage.getItem('roles') || '[]');
-    return roles.includes('ROLE_ADMIN');
+    const roles = localStorage.getItem('roles');
+    if (!roles) return false;
+    try {
+      const parsed = JSON.parse(roles);
+      return parsed.includes('ROLE_ADMIN');
+    } catch {
+      return false;
+    }
   }
 }

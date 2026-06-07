@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../../service/category.service';
@@ -17,12 +17,13 @@ export class CategoriesComponent implements OnInit {
   isAdmin = false;
   showForm = false;
   isEditing = false;
-
+  isLoading = true;
   selectedCategory: any = { name: '', description: '' };
 
   constructor(
     private categoryService: CategoryService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -31,10 +32,23 @@ export class CategoriesComponent implements OnInit {
   }
 
   loadCategories(): void {
+    this.isLoading = true;
     this.categoryService.getAll().subscribe({
-      next: (data) => this.categories = data,
-      error: (err) => console.error(err)
+      next: (data) => {
+        this.categories = data;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
+  }
+
+  trackById(index: number, item: any): number {
+    return item.id;
   }
 
   openCreateForm(): void {
@@ -52,17 +66,11 @@ export class CategoriesComponent implements OnInit {
   saveCategory(): void {
     if (this.isEditing) {
       this.categoryService.update(this.selectedCategory.id, this.selectedCategory).subscribe({
-        next: () => {
-          this.loadCategories();
-          this.showForm = false;
-        }
+        next: () => { this.loadCategories(); this.showForm = false; }
       });
     } else {
       this.categoryService.create(this.selectedCategory).subscribe({
-        next: () => {
-          this.loadCategories();
-          this.showForm = false;
-        }
+        next: () => { this.loadCategories(); this.showForm = false; }
       });
     }
   }
@@ -79,3 +87,4 @@ export class CategoriesComponent implements OnInit {
     this.showForm = false;
   }
 }
+      

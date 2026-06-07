@@ -1,6 +1,7 @@
-<nav>
+<nav *ngIf="isLoggedIn">
   <a routerLink="/categories">Kategorije</a>
   <a routerLink="/items">Artikli</a>
+  <span class="username"> {{ username }}</span>
   <button (click)="logout()">Odjavi se</button>
 </nav>
 

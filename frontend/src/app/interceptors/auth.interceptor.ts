@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpRequest, HttpHandler, HttpEvent,
-  HttpInterceptor, HttpErrorResponse
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
@@ -16,10 +19,16 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.authService.getToken();
+    const token = localStorage.getItem('token');
+
+    console.log('Interceptor token:', token);
 
     if (token) {
-      request = this.addToken(request, token);
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
     }
 
     return next.handle(request).pipe(
@@ -32,12 +41,6 @@ export class AuthInterceptor implements HttpInterceptor {
     );
   }
 
-  private addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
-    return request.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
-    });
-  }
-
   private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
@@ -47,7 +50,11 @@ export class AuthInterceptor implements HttpInterceptor {
         switchMap((response: any) => {
           this.isRefreshing = false;
           this.refreshTokenSubject.next(response.accessToken);
-          return next.handle(this.addToken(request, response.accessToken));
+          return next.handle(request.clone({
+            setHeaders: {
+              Authorization: `Bearer ${response.accessToken}`
+            }
+          }));
         }),
         catchError(error => {
           this.isRefreshing = false;
@@ -60,7 +67,11 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.refreshTokenSubject.pipe(
       filter(token => token !== null),
       take(1),
-      switchMap(token => next.handle(this.addToken(request, token!)))
+      switchMap(token => next.handle(request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token!}`
+        }
+      })))
     );
   }
 }

@@ -1,45 +1,50 @@
 <div class="container">
   <h2>Kategorije</h2>
 
-  <button *ngIf="isAdmin && !showForm" (click)="openCreateForm()">
-    + Dodaj kategoriju
-  </button>
+  <div *ngIf="isLoading">Učitavanje...</div>
 
-  <!-- Forma za kreiranje/izmenu -->
-  <div *ngIf="showForm" class="form-card">
-    <h3>{{ isEditing ? 'Izmeni kategoriju' : 'Nova kategorija' }}</h3>
-    <div>
-      <label>Naziv</label>
-      <input type="text" [(ngModel)]="selectedCategory.name" />
-    </div>
-    <div>
-      <label>Opis</label>
-      <input type="text" [(ngModel)]="selectedCategory.description" />
-    </div>
-    <button (click)="saveCategory()">Sačuvaj</button>
-    <button (click)="cancel()">Otkaži</button>
-  </div>
+  <ng-container *ngIf="!isLoading">
+    <button class="btn-success" *ngIf="isAdmin && !showForm" (click)="openCreateForm()">
+      + Dodaj kategoriju
+    </button>
 
-  <!-- Tabela -->
-  <table *ngIf="!showForm">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Naziv</th>
-        <th>Opis</th>
-        <th *ngIf="isAdmin">Akcije</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let category of categories">
-        <td>{{ category.id }}</td>
-        <td>{{ category.name }}</td>
-        <td>{{ category.description }}</td>
-        <td *ngIf="isAdmin">
-          <button (click)="openEditForm(category)">Izmeni</button>
-          <button (click)="deleteCategory(category.id)">Obriši</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <div *ngIf="showForm" class="form-card">
+      <h3>{{ isEditing ? 'Izmeni kategoriju' : 'Nova kategorija' }}</h3>
+      <div>
+        <label>Naziv</label>
+        <input type="text" [(ngModel)]="selectedCategory.name" />
+      </div>
+      <div>
+        <label>Opis</label>
+        <input type="text" [(ngModel)]="selectedCategory.description" />
+      </div>
+      <button class="btn-primary" (click)="saveCategory()">Sačuvaj</button>
+      <button class="btn-secondary" (click)="cancel()">Otkaži</button>
+    </div>
+
+    <div *ngIf="!showForm">
+      <p *ngIf="categories.length === 0">Nema kategorija u bazi.</p>
+      <table *ngIf="categories.length > 0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Naziv</th>
+            <th>Opis</th>
+            <th *ngIf="isAdmin">Akcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of categories; trackBy: trackById">
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.description }}</td>
+            <td *ngIf="isAdmin">
+              <button class="btn-warning" (click)="openEditForm(category)">Izmeni</button>
+              <button class="btn-danger" (click)="deleteCategory(category.id)">Obriši</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
 </div>

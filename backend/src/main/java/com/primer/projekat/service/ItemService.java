@@ -1,10 +1,11 @@
 package com.primer.projekat.service;
 
-import lombok.RequiredArgsConstructor;
 import com.primer.projekat.model.Category;
+import com.primer.projekat.model.Item;
 import com.primer.projekat.repository.CategoryRepository;
+import com.primer.projekat.repository.ItemRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @Service

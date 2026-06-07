@@ -27,8 +27,8 @@ export class RegisterComponent {
         this.successMessage = 'Registracija uspešna! Preusmeravam...';
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
-      error: () => {
-        this.errorMessage = 'Greška pri registraciji!';
+      error: (err) => {
+        this.errorMessage = err.error || 'Greška pri registraciji!';
       }
     });
   }
