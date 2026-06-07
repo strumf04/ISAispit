@@ -1,0 +1,16 @@
+<div class="login-container">
+  <h2>Prijava</h2>
+  <form (ngSubmit)="onLogin()">
+    <div>
+      <label>Username</label>
+      <input type="text" [(ngModel)]="username" name="username" required />
+    </div>
+    <div>
+      <label>Password</label>
+      <input type="password" [(ngModel)]="password" name="password" required />
+    </div>
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+    <button type="submit">Prijavi se</button>
+    <p>Nemaš nalog? <a routerLink="/register">Registruj se</a></p>
+  </form>
+</div>

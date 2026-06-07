@@ -1,0 +1,70 @@
+<div class="container">
+  <h2>Artikli</h2>
+
+  <button *ngIf="isAdmin && !showForm" (click)="openCreateForm()">
+    + Dodaj artikal
+  </button>
+
+  <!-- Forma -->
+  <div *ngIf="showForm" class="form-card">
+    <h3>{{ isEditing ? 'Izmeni artikal' : 'Novi artikal' }}</h3>
+
+    <div>
+      <label>Naziv</label>
+      <input type="text" [(ngModel)]="selectedItem.name" />
+    </div>
+    <div>
+      <label>Opis</label>
+      <input type="text" [(ngModel)]="selectedItem.description" />
+    </div>
+    <div>
+      <label>Cijena</label>
+      <input type="number" [(ngModel)]="selectedItem.price" />
+    </div>
+    <div>
+      <label>Stanje na lageru</label>
+      <input type="number" [(ngModel)]="selectedItem.stock" />
+    </div>
+    <div>
+      <label>Kategorija</label>
+      <select [(ngModel)]="selectedCategoryId">
+        <option value="0">-- Izaberi kategoriju --</option>
+        <option *ngFor="let cat of categories" [value]="cat.id">
+          {{ cat.name }}
+        </option>
+      </select>
+    </div>
+
+    <button (click)="saveItem()">Sačuvaj</button>
+    <button (click)="cancel()">Otkaži</button>
+  </div>
+
+  <!-- Tabela -->
+  <table *ngIf="!showForm">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Naziv</th>
+        <th>Opis</th>
+        <th>Cijena</th>
+        <th>Lager</th>
+        <th>Kategorija</th>
+        <th *ngIf="isAdmin">Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of items">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.price }} RSD</td>
+        <td>{{ item.stock }}</td>
+        <td>{{ item.category?.name }}</td>
+        <td *ngIf="isAdmin">
+          <button (click)="openEditForm(item)">Izmeni</button>
+          <button (click)="deleteItem(item.id)">Obriši</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

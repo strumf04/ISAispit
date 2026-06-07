@@ -1,0 +1,45 @@
+<div class="container">
+  <h2>Kategorije</h2>
+
+  <button *ngIf="isAdmin && !showForm" (click)="openCreateForm()">
+    + Dodaj kategoriju
+  </button>
+
+  <!-- Forma za kreiranje/izmenu -->
+  <div *ngIf="showForm" class="form-card">
+    <h3>{{ isEditing ? 'Izmeni kategoriju' : 'Nova kategorija' }}</h3>
+    <div>
+      <label>Naziv</label>
+      <input type="text" [(ngModel)]="selectedCategory.name" />
+    </div>
+    <div>
+      <label>Opis</label>
+      <input type="text" [(ngModel)]="selectedCategory.description" />
+    </div>
+    <button (click)="saveCategory()">Sačuvaj</button>
+    <button (click)="cancel()">Otkaži</button>
+  </div>
+
+  <!-- Tabela -->
+  <table *ngIf="!showForm">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Naziv</th>
+        <th>Opis</th>
+        <th *ngIf="isAdmin">Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories">
+        <td>{{ category.id }}</td>
+        <td>{{ category.name }}</td>
+        <td>{{ category.description }}</td>
+        <td *ngIf="isAdmin">
+          <button (click)="openEditForm(category)">Izmeni</button>
+          <button (click)="deleteCategory(category.id)">Obriši</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
