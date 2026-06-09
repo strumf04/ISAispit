@@ -22,3 +22,6 @@ Pokretanje Frontend-a:
 * cd .\frontend\
 * npm install
 * ng serve
+
+
+Student: Mateja Tomić 2023202921
