@@ -19,8 +19,7 @@ public class Category {
 
     private String description;
 
-    // OneToMany: jedna kategorija ima više artikala
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonIgnore  // izbegava beskonačnu rekurziju
+    @JsonIgnore 
     private List<Item> items = new ArrayList<>();
 }

@@ -31,7 +31,6 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    // ManyToMany: jedan user može imati više rola
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_roles",

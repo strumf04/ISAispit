@@ -64,7 +64,7 @@ export class ItemsComponent implements OnInit {
     });
   }
 
-  // Nova funkcija za filtriranje na frontendu
+  
   filterItems(): void {
     if (Number(this.searchCategoryId) === 0) {
       this.filteredItems = [...this.items];

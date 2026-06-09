@@ -24,7 +24,6 @@ public class Item {
 
     private Integer stock;
 
-    // ManyToOne: više artikala pripada jednoj kategoriji
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
