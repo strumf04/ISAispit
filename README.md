@@ -1,6 +1,9 @@
 Zdravo, ovo je moje resenje za ispitni projekat iz predmeta Internet softverske arhitekture
 
-Tehnologije i Arhitektura korišćeni u ovom projektu su Backend (Java Spring Boot), Frontend (Angular)
+Tehnologije i Arhitektura korišćeni u ovom projektu su:  
+*  Frontend: Angular (TypeScript)
+*  Backend: Java Spring Boot (slojevita arhitektura: Controller, Service, Repository, Model, DTO, Config)
+*  Baza podataka MySQL
 
 Dokumentacija postman: ISAispit/postman/collections
 /Ecomerce API/
